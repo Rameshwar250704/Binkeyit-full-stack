@@ -4,7 +4,8 @@ import Home from "../pages/Home";
 import Search from "../components/Search";
 import SearchPage from "../pages/SearchPage";
 import Register from "../pages/Register";
-import Login from "../pages/login";
+import Login from "../pages/Login";
+
 import UserMenu from "../components/UserMenu";
 import UserMenuMobile from "../pages/UserMenuMobile";
 import Dashboard from "../layouts/Dashboard";
