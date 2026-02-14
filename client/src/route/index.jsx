@@ -18,7 +18,7 @@ import Category from "../pages/Category";
 import UploadProduct from "../pages/UploadProduct";
 import AdminPermission from "../layouts/AdminPermission";
 import ProductListPage from "../pages/ProductListPage";
-import ProductDisplayPage from "../pages/productDisplayPage";
+import ProductDisplayPage from "../pages/ProductDisplayPage";
 import CheckoutPage from "../pages/CheckoutPage";
 
 
