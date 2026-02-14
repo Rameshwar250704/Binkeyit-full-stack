@@ -10,7 +10,7 @@ import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import  handleAddAddress from '../store/addressSlice'
+import  handleAddAddress from '../store/addressslice'
 
 
 
