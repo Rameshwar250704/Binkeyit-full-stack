@@ -9,7 +9,7 @@ import Login from "../pages/Login";
 import UserMenu from "../components/UserMenu";
 import UserMenuMobile from "../pages/UserMenuMobile";
 import Dashboard from "../layouts/Dashboard";
-import Profile from "../pages/profile";
+import Profile from "../pages/Profile";
 import Address from "../pages/Address";
 import MyOrder from "../pages/MyOrder";
 import Products from "../pages/Products";
