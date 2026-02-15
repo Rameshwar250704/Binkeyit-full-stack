@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import uploadImage from "../utils/uploadImage";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import toast from "react-hot-toast";
 import AxiosToastError from "../utils/AxiosToastError";
+import { useDispatch } from "react-redux";
+
 
 const UploadCategoryModel = ({ close, fetchData }) => {
   const [data, setData] = useState({
     name: "",
     image: "",
   });
+
+  const dispatch=useDispatch()
 
   const [loading, setLoading] = useState(false);
 
@@ -42,6 +46,7 @@ const UploadCategoryModel = ({ close, fetchData }) => {
       setLoading(false);
     }
   };
+  
 
   // ✅ UPLOAD IMAGE (CLOUDINARY FIXED)
   const handleUploadCategoryImage = async (e) => {
@@ -75,6 +80,9 @@ const UploadCategoryModel = ({ close, fetchData }) => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <section className="fixed inset-0 p-4 bg-neutral-800 bg-opacity-60 flex items-center justify-center">

@@ -4,10 +4,14 @@ import AxiosToasrError from '../utils/AxiosToastError'
 import SummaryApi from '../common/SummaryApi'
 import Axios from '../utils/Axios'
 import { MdEdit, MdDelete } from "react-icons/md";
+import { useDispatch } from 'react-redux'
+import { setAllSubCategory } from "../store/productSlice";
+
 
 
 const Sub_Category = () => {
   const [openAddSubCategory,setopenAddSubCategory]=useState(false)
+  const dispatch=useDispatch()
  const [data,setData]=useState([])
  const[loading,setLoading]=useState(false)
   const fetchSubCategory=async()=>{
@@ -20,6 +24,7 @@ const Sub_Category = () => {
       const subCategory = response?.data
        if(subCategory.success){
         setData(subCategory.data)
+        dispatch(setAllSubCategory(subCategory.data))
        }
 
       
@@ -33,6 +38,8 @@ const Sub_Category = () => {
   }
   useEffect(()=>{
     fetchSubCategory()
+    
+    
 
   },[])
   console.log("subCategoryData",data)

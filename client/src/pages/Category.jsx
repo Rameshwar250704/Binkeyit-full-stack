@@ -5,11 +5,16 @@ import NoData from '../components/No Data'
 import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import { useSelector } from 'react-redux'
+import { useDispatch } from "react-redux";
+import { setAllCategory } from "../store/productSlice";
 
 const Category = () => {
     const[openUploadCategory,setopenUploadCategory]=useState(false)
     const [loading,setLoading]=useState(false)
     const [categoryData,setcategoryData]=useState([])
+    const dispatch = useDispatch()
+
+    console.log("category upload",categoryData)
 
     // const allCategory=useSelector(state=>state.product.allCategory)
 
@@ -18,28 +23,50 @@ const Category = () => {
 
     // },[allCategory])
     
-    const fetchCategory=async()=>{
-      try {
-        setLoading(true)
-        const response=await Axios({
-          ...SummaryApi.getCategory
-        })
+    // const fetchCategory=async()=>{
+    //   try {
+    //     setLoading(true)
+    //     const response=await Axios({
+    //       ...SummaryApi.getCategory
+    //     })
+        
 
-       const categoryList = response?.data
-       if(categoryList.success){
-        setcategoryData(categoryList.data)
-       }
+    //    const categoryList = response?.data
+    //    if(categoryList.success){
+    //     setcategoryData(categoryList.data)
+    //    }
 
        
       
 
         
-      } catch (error) {
+    //   } catch (error) {
         
-      } finally{
-        setLoading(false)
-      }
+    //   } finally{
+    //     setLoading(false)
+    //   }
+    // }
+   const fetchCategory = async () => {
+  try {
+    setLoading(true)
+
+    const response = await Axios({
+      ...SummaryApi.getCategory
+    })
+
+    const categoryList = response?.data
+
+    if (categoryList.success) {
+      setcategoryData(categoryList.data)          // for UI
+      dispatch(setAllCategory(categoryList.data)) // 👈 THIS FIXES DROPDOWN
     }
+
+  } catch (error) {
+
+  } finally {
+    setLoading(false)
+  }
+}
 
     useEffect(()=>{
       fetchCategory()

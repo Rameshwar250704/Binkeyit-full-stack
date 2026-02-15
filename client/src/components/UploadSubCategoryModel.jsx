@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IoClose } from "react-icons/io5"
 import uploadImage from '../utils/uploadImage'
 import { useSelector } from 'react-redux'
@@ -37,6 +37,7 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
       if (!imageUrl) {
         toast.error("Image uploaded but URL not found")
         return
+        fetchData()
       }
 
       setsubCategoryData((preve) => ({
@@ -57,14 +58,18 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
       })
 
       if (response.data.success) {
-        toast.success(response.data.message)
-        if (fetchData) fetchData()
+        toast.success(response?.data.message)
+         fetchData()
         close()
       }
     } catch (error) {
       console.log("error in unknown")
     }
   }
+  useEffect(() => {
+  fetchData();
+}, []);
+
 
   return (
     <section className="fixed inset-0 bg-neutral-800/70 z-50 flex items-center justify-center p-4">
@@ -125,7 +130,7 @@ const UploadSubCategoryModel = ({ close, fetchData }) => {
           </div>
 
           {/* CATEGORY */}
-          <div className="grid gap-2">
+          <div className="grid gap-2" >
             <label>Select Category</label>
 
             <div className="flex flex-wrap gap-2">
