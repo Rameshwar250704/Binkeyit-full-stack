@@ -37,7 +37,7 @@ const AddAddress = ({close}) => {
                     
                 }
             }
-            // fetchAddress()
+            fetchAddress()
         } catch (error) {
             AxiosToasrError(error)
         }
