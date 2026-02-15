@@ -120,49 +120,52 @@ export const createProductController = async (request, response) => {
 }
 
 
-export const getProductController=async(request,response)=>{
+export const getProductController = async (request, response) => {
   try {
-    let {page,limit,search}=request.body
+    let { page, limit, search } = request.body;
 
-    //product
-    //total number of product 
-    if(!page){
-      page=1
-    }
-    if(!limit){
-      limit=10
-    }
-    const query=search?{
+    page = Number(page) || 1;
+    limit = Number(limit) || 10;
 
-      $text:{
-        $search:search
-      }
-    }:{}
-    const skip=(page-1)*limit
-    const [data,totalCount]=await Promise.all([
-      ProductModel.find(query).sort({createdAt:-1}).skip(skip).limit(limit),
-      ProductModel.countDocuments(query)
-    ])
+    // ✅ Replace $text with regex search
+    const query = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } }
+          ]
+        }
+      : {};
+
+    const skip = (page - 1) * limit;
+
+    const [data, totalCount] = await Promise.all([
+      ProductModel.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+
+      ProductModel.countDocuments(query),
+    ]);
 
     return response.json({
-      message:"product data",
-      error:false,
-      success:true,
-      totalCount:totalCount,
-      totalNoPage:Math.ceil(totalCount/limit),
-      data:data
+      message: "product data",
+      error: false,
+      success: true,
+      totalCount: totalCount,
+      totalNoPage: Math.ceil(totalCount / limit),
+      data: data,
+    });
 
-    })
-    
   } catch (error) {
     return response.status(500).json({
-      message:error.message || error,
-      error:true,
-      success:false
-    })
-    
+      message: error.message || error,
+      error: true,
+      success: false,
+    });
   }
-}
+};
+
 export const getProductByCategory = async (request, response) => {
   try {
     const { id } = request.query   // ✅ FIX
@@ -263,50 +266,52 @@ export const getProductDetails=async (request,response)=>{
   }
 }
   
-export const searchProduct=async(request,response)=>{
+export const searchProduct = async (request, response) => {
   try {
-     let {search, page, limit}=request.body
-     if(!page){
-      page=1
+    let { search, page, limit } = request.body;
 
-     }
-     if(!limit){
-      limit=12
+    // ✅ convert to number safely
+    page = Number(page) || 1;
+    limit = Number(limit) || 12;
 
-     }
+    // ✅ Regex search (no text index needed)
+    const query = search
+      ? {
+          $or: [
+            { name: { $regex: search, $options: "i" } },
+            { description: { $regex: search, $options: "i" } }
+          ]
+        }
+      : {};
 
-     const query=search ? {
-      $text:{
-      $search:search
-      }
+    const skip = (page - 1) * limit;
 
-     }:{}
+    const [data, dataCount] = await Promise.all([
+      ProductModel.find(query)
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit)
+        .populate("category subCategory"),
 
-     const skip=(page-1)*limit
-     const [data,dataCount]=await Promise.all([
-       ProductModel.find(query).sort({createdAt:-1}).skip(skip).limit(limit).populate("category subCategory"),
-      ProductModel.countDocuments(query)
-     ])
+      ProductModel.countDocuments(query),
+    ]);
 
-     return response.json({
-      message:"product data",
-      success:true,
-      error:false,
-      data:data,
-      totalCount:dataCount,
-      totalPage:Math.ceil(dataCount/limit),
-      page:page,
-      limit:limit
-     })
-     
+    return response.json({
+      message: "product data",
+      success: true,
+      error: false,
+      data: data,
+      totalCount: dataCount,
+      totalPage: Math.ceil(dataCount / limit),
+      page: page,
+      limit: limit,
+    });
 
-
-    
   } catch (error) {
     return response.status(500).json({
       message: error.message || error,
       error: true,
-      success: false
-    })
+      success: false,
+    });
   }
-}
+};
