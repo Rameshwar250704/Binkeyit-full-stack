@@ -3,7 +3,7 @@ import userReducer from './userSlice'
 import productReducer from './productSlice'
 import cartReducer from "./cartProduct"
 
-import addressReducer from './addressslice'
+import addressReducer from './addressSlice'
 
 
 export const store = configureStore({

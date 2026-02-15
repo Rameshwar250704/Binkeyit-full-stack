@@ -6,7 +6,7 @@ import { handleAddItemCart } from "../store/cartProduct";
 import { useEffect } from "react";
 import toast from "react-hot-toast";
 import AxiosToasrError from "../utils/AxiosToastError";
-import { handleAddAddress } from "../store/addressslice";
+import { handleAddAddress } from "../store/addressSlice";
 
 
 export const GlobalContext=createContext(null)

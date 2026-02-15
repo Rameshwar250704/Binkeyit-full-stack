@@ -4,7 +4,7 @@ const initialValue = {
     addressList : []
 }
 
-const addressslice = createSlice({
+const addressSlice = createSlice({
     name : 'address',
     initialState : initialValue,
     reducers : {
@@ -18,6 +18,6 @@ const addressslice = createSlice({
     }
 })
 
-export const {handleAddAddress} = addressslice.actions
+export const {handleAddAddress} = addressSlice.actions
 
-export default addressslice.reducer
+export default addressSlice.reducer
